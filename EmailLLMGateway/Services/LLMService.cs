@@ -1,6 +1,3 @@
-using Anthropic.SDK;
-using Anthropic.SDK.Constants;
-using Anthropic.SDK.Messaging;
 using EmailLLMGateway.Models;
 
 namespace EmailLLMGateway.Services
@@ -8,70 +5,39 @@ namespace EmailLLMGateway.Services
     public class LLMService
     {
         private readonly LLMSettings _settings;
+        private readonly ILLMProvider _provider;
 
         public LLMService(LLMSettings settings)
         {
             _settings = settings;
+            _provider = CreateProvider(settings);
+        }
+
+        private ILLMProvider CreateProvider(LLMSettings settings)
+        {
+            return settings.Provider.ToLower() switch
+            {
+                "anthropic" => new AnthropicProvider(settings),
+                "openai" => new OpenAIProvider(settings),
+                _ => throw new NotSupportedException($"Provider '{settings.Provider}' is not supported. Supported providers: Anthropic, OpenAI")
+            };
         }
 
         public async Task<string> GetLLMResponseAsync(string prompt)
         {
             try
             {
-                if (_settings.Provider == "Anthropic")
-                {
-                    return await GetAnthropicResponseAsync(prompt);
-                }
-                else
-                {
-                    throw new NotImplementedException($"Provider '{_settings.Provider}' is not yet implemented.");
-                }
+                return await _provider.GetResponseAsync(prompt);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error getting LLM response: {ex.Message}", ex);
+                throw new Exception($"Error getting LLM response from {_settings.Provider}: {ex.Message}", ex);
             }
-        }
-
-        private async Task<string> GetAnthropicResponseAsync(string prompt)
-        {
-            var client = new AnthropicClient(new APIAuthentication(_settings.ApiKey));
-
-            var messages = new List<Message>
-            {
-                new Message(RoleType.User, prompt)
-            };
-
-            var parameters = new MessageParameters
-            {
-                Messages = messages,
-                Model = _settings.Model,
-                MaxTokens = _settings.MaxTokens,
-                Stream = false
-            };
-
-            var response = await client.Messages.GetClaudeMessageAsync(parameters);
-
-            if (response?.Content != null && response.Content.Count > 0)
-            {
-                return response.Content[0].Text ?? "No response generated.";
-            }
-
-            return "No response generated.";
         }
 
         public bool ValidateConfiguration()
         {
-            if (string.IsNullOrWhiteSpace(_settings.ApiKey))
-                return false;
-
-            if (string.IsNullOrWhiteSpace(_settings.Model))
-                return false;
-
-            if (_settings.MaxTokens <= 0)
-                return false;
-
-            return true;
+            return _provider.ValidateConfiguration();
         }
     }
 }
