@@ -30,6 +30,7 @@ namespace EmailLLMGateway.Models
         public string ApiKey { get; set; } = "";
         public string Model { get; set; } = "claude-3-5-sonnet-20241022";
         public int MaxTokens { get; set; } = 4096;
+        public string BaseUrl { get; set; } = ""; // Optional: Custom base URL for OpenAI-compatible APIs
     }
 
     public class MonitoringSettings

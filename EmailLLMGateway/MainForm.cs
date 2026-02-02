@@ -118,7 +118,7 @@ namespace EmailLLMGateway
             tab.Controls.Add(panel);
         }
 
-        private TextBox? txtApiKey, txtModel, txtMaxTokens;
+        private TextBox? txtApiKey, txtModel, txtMaxTokens, txtBaseUrl;
         private ComboBox? cmbProvider;
 
         private void CreateLLMSettingsTab(TabPage tab)
@@ -128,7 +128,7 @@ namespace EmailLLMGateway
 
             AddLabel(panel, "Provider:", 10, y);
             cmbProvider = new ComboBox { Left = 150, Top = y, Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
-            cmbProvider.Items.AddRange(new object[] { "Anthropic" });
+            cmbProvider.Items.AddRange(new object[] { "Anthropic", "OpenAI" });
             cmbProvider.SelectedIndex = 0;
             panel.Controls.Add(cmbProvider);
             y += 35;
@@ -139,11 +139,16 @@ namespace EmailLLMGateway
 
             AddLabel(panel, "Model:", 10, y);
             txtModel = AddTextBox(panel, 150, y, 400);
-            AddLabel(panel, "(e.g., claude-3-5-sonnet-20241022)", 560, y, false, 8);
+            AddLabel(panel, "(e.g., claude-3-5-sonnet-20241022, gpt-4, etc.)", 560, y, false, 8);
             y += 35;
 
             AddLabel(panel, "Max Tokens:", 10, y);
             txtMaxTokens = AddTextBox(panel, 150, y, 100);
+            y += 35;
+
+            AddLabel(panel, "Base URL:", 10, y);
+            txtBaseUrl = AddTextBox(panel, 150, y, 400);
+            AddLabel(panel, "(Optional: for OpenAI-compatible APIs)", 560, y, false, 8);
             y += 45;
 
             var btnSave = new Button { Text = "Save Settings", Left = 150, Top = y, Width = 120 };
@@ -300,6 +305,7 @@ namespace EmailLLMGateway
             if (txtApiKey != null) txtApiKey.Text = _config.LLMSettings.ApiKey;
             if (txtModel != null) txtModel.Text = _config.LLMSettings.Model;
             if (txtMaxTokens != null) txtMaxTokens.Text = _config.LLMSettings.MaxTokens.ToString();
+            if (txtBaseUrl != null) txtBaseUrl.Text = _config.LLMSettings.BaseUrl;
 
             // Monitoring settings
             if (txtSubjectPattern != null) txtSubjectPattern.Text = _config.MonitoringSettings.SubjectPattern;
@@ -332,6 +338,7 @@ namespace EmailLLMGateway
             _config.LLMSettings.ApiKey = txtApiKey?.Text ?? "";
             _config.LLMSettings.Model = txtModel?.Text ?? "";
             _config.LLMSettings.MaxTokens = int.TryParse(txtMaxTokens?.Text, out int maxTokens) ? maxTokens : 4096;
+            _config.LLMSettings.BaseUrl = txtBaseUrl?.Text ?? "";
 
             ConfigurationManager.SaveConfiguration(_config);
             MessageBox.Show("LLM settings saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
