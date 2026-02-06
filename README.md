@@ -1,6 +1,9 @@
 # Email LLM Responder
 
 A WPF desktop application that automatically monitors an email inbox, processes incoming questions using an OpenAI API-compatible LLM, and sends intelligent responses back to the sender.
+<img width="1917" height="1029" alt="llm-email1e" src="https://github.com/user-attachments/assets/fb06638b-f2f4-41be-9209-b7ac0046acac" />
+<img width="1918" height="1031" alt="llm-email2" src="https://github.com/user-attachments/assets/cf610a5d-80fd-4dc7-b6fb-75edf3ff163e" />
+<img width="1919" height="1030" alt="llm-email3e" src="https://github.com/user-attachments/assets/63356bc2-4457-4a06-84f7-30155fe361ac" />
 
 ## Features
 
