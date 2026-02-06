@@ -178,7 +178,3 @@ Monitor the application's operation:
 ## License
 
 See LICENSE file for details.
-
-## Archive
-
-The previous version of this application has been moved to the `/Archive` folder.
