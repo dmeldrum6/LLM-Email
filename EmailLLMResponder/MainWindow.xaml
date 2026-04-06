@@ -88,6 +88,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <Label Grid.Row="0" Grid.Column="0" Content="Email Address:" VerticalContentAlignment="Center"/>
@@ -101,6 +102,14 @@
                                 <TextBox Name="CheckIntervalTextBox" Width="80"/>
                                 <TextBlock Text="seconds" VerticalAlignment="Center" Margin="6,0,0,0"
                                            FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            </StackPanel>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="Subject Filter:" VerticalContentAlignment="Center"/>
+                            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBox Name="SubjectFilterTextBox" Width="200"/>
+                                <TextBlock Text="(only reply to emails whose subject contains this text)"
+                                           VerticalAlignment="Center" Margin="8,0,0,0"
+                                           FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
                             </StackPanel>
                         </Grid>
 
