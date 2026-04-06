@@ -39,6 +39,7 @@ namespace EmailLLMResponder
             EmailAddressTextBox.Text = _config.EmailConfig.EmailAddress;
             EmailPasswordBox.Password = _config.EmailConfig.Password;
             CheckIntervalTextBox.Text = _config.EmailConfig.CheckIntervalSeconds.ToString();
+            SubjectFilterTextBox.Text = _config.EmailConfig.SubjectFilter;
 
             ApiEndpointTextBox.Text = _config.LLMConfig.ApiEndpoint;
             ApiKeyBox.Password = _config.LLMConfig.ApiKey;
@@ -58,6 +59,8 @@ namespace EmailLLMResponder
 
             if (int.TryParse(CheckIntervalTextBox.Text, out int interval))
                 _config.EmailConfig.CheckIntervalSeconds = interval;
+
+            _config.EmailConfig.SubjectFilter = SubjectFilterTextBox.Text;
 
             if (int.TryParse(MaxTokensTextBox.Text, out int maxTokens))
                 _config.LLMConfig.MaxTokens = maxTokens;
@@ -245,6 +248,15 @@ namespace EmailLLMResponder
                         {
                             if (cancellationToken.IsCancellationRequested)
                                 break;
+
+                            var subjectFilter = _config.EmailConfig.SubjectFilter;
+                            if (!string.IsNullOrWhiteSpace(subjectFilter) &&
+                                !email.Subject.Contains(subjectFilter, StringComparison.OrdinalIgnoreCase))
+                            {
+                                LogMessage($"Skipping email (subject filter not matched): {email.Subject}");
+                                await _emailService.MarkAsReadAsync(email.Uid, _config.EmailConfig);
+                                continue;
+                            }
 
                             await ProcessEmailAsync(email);
                         }

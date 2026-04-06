@@ -11,5 +11,6 @@ namespace EmailLLMResponder.Models
         public string EmailAddress { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public int CheckIntervalSeconds { get; set; } = 60;
+        public string SubjectFilter { get; set; } = "question";
     }
 }
