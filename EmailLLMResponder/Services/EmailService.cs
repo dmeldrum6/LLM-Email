@@ -7,6 +7,7 @@ using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Net.Smtp;
 using MailKit.Search;
+using MailKit.Security;
 using MimeKit;
 
 namespace EmailLLMResponder.Services
@@ -78,7 +79,7 @@ namespace EmailLLMResponder.Services
                 message.Body = bodyBuilder.ToMessageBody();
 
                 using var client = new SmtpClient();
-                await client.ConnectAsync(config.SmtpServer, config.SmtpPort, config.SmtpUseSsl);
+                await client.ConnectAsync(config.SmtpServer, config.SmtpPort, GetSmtpOptions(config));
                 await client.AuthenticateAsync(config.EmailAddress, config.Password);
                 await client.SendAsync(message);
                 await client.DisconnectAsync(true);
@@ -109,26 +110,27 @@ namespace EmailLLMResponder.Services
             }
         }
 
-        public async Task<bool> TestConnectionAsync(EmailConfig config)
+        public async Task TestConnectionAsync(EmailConfig config)
         {
-            try
-            {
-                using var imapClient = new ImapClient();
-                await imapClient.ConnectAsync(config.ImapServer, config.ImapPort, config.ImapUseSsl);
-                await imapClient.AuthenticateAsync(config.EmailAddress, config.Password);
-                await imapClient.DisconnectAsync(true);
+            using var imapClient = new ImapClient();
+            await imapClient.ConnectAsync(config.ImapServer, config.ImapPort, config.ImapUseSsl);
+            await imapClient.AuthenticateAsync(config.EmailAddress, config.Password);
+            await imapClient.DisconnectAsync(true);
 
-                using var smtpClient = new SmtpClient();
-                await smtpClient.ConnectAsync(config.SmtpServer, config.SmtpPort, config.SmtpUseSsl);
-                await smtpClient.AuthenticateAsync(config.EmailAddress, config.Password);
-                await smtpClient.DisconnectAsync(true);
+            using var smtpClient = new SmtpClient();
+            await smtpClient.ConnectAsync(config.SmtpServer, config.SmtpPort, GetSmtpOptions(config));
+            await smtpClient.AuthenticateAsync(config.EmailAddress, config.Password);
+            await smtpClient.DisconnectAsync(true);
+        }
 
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+        private static SecureSocketOptions GetSmtpOptions(EmailConfig config)
+        {
+            if (!config.SmtpUseSsl)
+                return SecureSocketOptions.StartTlsWhenAvailable;
+            // Port 465 uses implicit TLS (SSL on connect); port 587 uses explicit TLS (STARTTLS)
+            return config.SmtpPort == 465
+                ? SecureSocketOptions.SslOnConnect
+                : SecureSocketOptions.StartTls;
         }
     }
 
