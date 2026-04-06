@@ -30,157 +30,159 @@
             <!-- Email Configuration Tab -->
             <TabItem Header="Email Configuration">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Border Margin="15" Background="{StaticResource SurfaceBrush}"
-                            CornerRadius="10" Padding="5">
-                        <StackPanel Margin="20">
-                        <GroupBox Header="IMAP Settings (Incoming Mail)" Margin="0,0,0,15">
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                    <StackPanel Margin="15,12,15,12">
 
-                                <Label Grid.Row="0" Grid.Column="0" Content="IMAP Server:"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Name="ImapServerTextBox"/>
+                        <!-- Gmail Notice -->
+                        <Border Background="#FFF8E1" BorderBrush="#FFB300" BorderThickness="1"
+                                CornerRadius="6" Padding="10,8" Margin="0,0,0,12">
+                            <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="#6D4C41">
+                                <Run FontWeight="Bold">Gmail users:</Run>
+                                <Run>Google blocks regular passwords for third-party apps. You must use an App Password — go to myaccount.google.com/apppasswords, generate one, and paste it in the Password field below.</Run>
+                                <LineBreak/>
+                                <Run Foreground="#9E7860">Recommended settings: IMAP imap.gmail.com:993 (SSL on) · SMTP smtp.gmail.com:587 (SSL on)</Run>
+                            </TextBlock>
+                        </Border>
 
-                                <Label Grid.Row="1" Grid.Column="0" Content="IMAP Port:"/>
-                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                                    <TextBox Name="ImapPortTextBox" Width="100"/>
-                                    <CheckBox Name="ImapUseSslCheckBox" Content="Use SSL/TLS" IsChecked="True" Margin="20,0,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </GroupBox>
+                        <!-- Server Settings -->
+                        <TextBlock Text="Server Settings" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="5,0,0,2"/>
+                        <Separator Margin="5,0,5,6"/>
 
-                        <GroupBox Header="SMTP Settings (Outgoing Mail)" Margin="0,0,0,15">
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                        <Grid Margin="5,0,5,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                                <Label Grid.Row="0" Grid.Column="0" Content="SMTP Server:"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Name="SmtpServerTextBox"/>
+                            <Label Grid.Row="0" Grid.Column="0" Content="IMAP Server:" VerticalContentAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Name="ImapServerTextBox"/>
+                            <Label Grid.Row="0" Grid.Column="2" Content="Port:" VerticalContentAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="3" Name="ImapPortTextBox"/>
+                            <CheckBox Grid.Row="0" Grid.Column="4" Name="ImapUseSslCheckBox" Content="SSL" IsChecked="True" VerticalAlignment="Center"/>
 
-                                <Label Grid.Row="1" Grid.Column="0" Content="SMTP Port:"/>
-                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                                    <TextBox Name="SmtpPortTextBox" Width="100"/>
-                                    <CheckBox Name="SmtpUseSslCheckBox" Content="Use SSL/TLS" IsChecked="True" Margin="20,0,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </GroupBox>
+                            <Label Grid.Row="1" Grid.Column="0" Content="SMTP Server:" VerticalContentAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Name="SmtpServerTextBox"/>
+                            <Label Grid.Row="1" Grid.Column="2" Content="Port:" VerticalContentAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="3" Name="SmtpPortTextBox"/>
+                            <CheckBox Grid.Row="1" Grid.Column="4" Name="SmtpUseSslCheckBox" Content="SSL" IsChecked="True" VerticalAlignment="Center"/>
+                        </Grid>
 
-                        <GroupBox Header="Authentication" Margin="0,0,0,15">
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                        <!-- Authentication -->
+                        <TextBlock Text="Authentication" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="5,0,0,2"/>
+                        <Separator Margin="5,0,5,6"/>
 
-                                <Label Grid.Row="0" Grid.Column="0" Content="Email Address:"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Name="EmailAddressTextBox"/>
+                        <Grid Margin="5,0,5,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                                <Label Grid.Row="1" Grid.Column="0" Content="Password:"/>
-                                <PasswordBox Grid.Row="1" Grid.Column="1" Name="EmailPasswordBox"/>
-                            </Grid>
-                        </GroupBox>
+                            <Label Grid.Row="0" Grid.Column="0" Content="Email Address:" VerticalContentAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Name="EmailAddressTextBox"/>
 
-                        <GroupBox Header="Monitoring Settings" Margin="0,0,0,15">
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                            <Label Grid.Row="1" Grid.Column="0" Content="Password:" VerticalContentAlignment="Center"/>
+                            <PasswordBox Grid.Row="1" Grid.Column="1" Name="EmailPasswordBox"/>
 
-                                <Label Grid.Column="0" Content="Check Interval (sec):"/>
-                                <TextBox Grid.Column="1" Name="CheckIntervalTextBox" Width="100" HorizontalAlignment="Left"/>
-                            </Grid>
-                        </GroupBox>
+                            <Label Grid.Row="2" Grid.Column="0" Content="Check Interval:" VerticalContentAlignment="Center"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBox Name="CheckIntervalTextBox" Width="80"/>
+                                <TextBlock Text="seconds" VerticalAlignment="Center" Margin="6,0,0,0"
+                                           FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            </StackPanel>
+                        </Grid>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0">
                             <Button Name="TestEmailButton" Content="Test Connection" Click="TestEmailButton_Click"/>
                             <Button Name="SaveEmailButton" Content="Save Email Config" Click="SaveEmailButton_Click"/>
                         </StackPanel>
-                        </StackPanel>
-                    </Border>
+
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
 
             <!-- LLM Configuration Tab -->
             <TabItem Header="LLM Configuration">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Border Margin="15" Background="{StaticResource SurfaceBrush}"
-                            CornerRadius="10" Padding="5">
-                        <StackPanel Margin="20">
-                        <GroupBox Header="API Settings" Margin="0,0,0,15">
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                    <StackPanel Margin="15,12,15,12">
 
-                                <Label Grid.Row="0" Grid.Column="0" Content="API Endpoint:"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Name="ApiEndpointTextBox"/>
+                        <!-- API Settings -->
+                        <TextBlock Text="API Settings" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="5,0,0,2"/>
+                        <Separator Margin="5,0,5,6"/>
 
-                                <Label Grid.Row="1" Grid.Column="0" Content="API Key:"/>
-                                <PasswordBox Grid.Row="1" Grid.Column="1" Name="ApiKeyBox"/>
+                        <Grid Margin="5,0,5,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                                <Label Grid.Row="2" Grid.Column="0" Content="Model:"/>
-                                <TextBox Grid.Row="2" Grid.Column="1" Name="ModelTextBox"/>
-                            </Grid>
-                        </GroupBox>
+                            <Label Grid.Row="0" Grid.Column="0" Content="API Endpoint:" VerticalContentAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Name="ApiEndpointTextBox"/>
 
-                        <GroupBox Header="Generation Parameters" Margin="0,0,0,15">
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                            <Label Grid.Row="1" Grid.Column="0" Content="API Key:" VerticalContentAlignment="Center"/>
+                            <PasswordBox Grid.Row="1" Grid.Column="1" Name="ApiKeyBox"/>
 
-                                <Label Grid.Row="0" Grid.Column="0" Content="Temperature:"/>
-                                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
-                                    <Slider Name="TemperatureSlider" Width="200" Minimum="0" Maximum="2" Value="0.7"
-                                            TickFrequency="0.1" IsSnapToTickEnabled="True" ValueChanged="TemperatureSlider_ValueChanged"/>
-                                    <TextBlock Name="TemperatureValue" Margin="10,0,0,0" VerticalAlignment="Center" Text="0.7"/>
-                                </StackPanel>
+                            <Label Grid.Row="2" Grid.Column="0" Content="Model:" VerticalContentAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Name="ModelTextBox"/>
+                        </Grid>
 
-                                <Label Grid.Row="1" Grid.Column="0" Content="Max Tokens:"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Name="MaxTokensTextBox" Width="100" HorizontalAlignment="Left"/>
-                            </Grid>
-                        </GroupBox>
+                        <!-- Generation Parameters -->
+                        <TextBlock Text="Generation Parameters" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="5,0,0,2"/>
+                        <Separator Margin="5,0,5,6"/>
 
-                        <GroupBox Header="System Prompt" Margin="0,0,0,15">
-                            <TextBox Name="SystemPromptTextBox" Height="100" TextWrapping="Wrap"
-                                     AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
-                        </GroupBox>
+                        <Grid Margin="5,0,5,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Label Grid.Column="0" Content="Temperature:" VerticalContentAlignment="Center"/>
+                            <Slider Grid.Column="1" Name="TemperatureSlider" Minimum="0" Maximum="2" Value="0.7"
+                                    TickFrequency="0.1" IsSnapToTickEnabled="True"
+                                    ValueChanged="TemperatureSlider_ValueChanged" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Name="TemperatureValue" Text="0.7"
+                                       VerticalAlignment="Center" Margin="8,0,20,0" FontSize="13"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <Label Grid.Column="3" Content="Max Tokens:" VerticalContentAlignment="Center"/>
+                            <TextBox Grid.Column="4" Name="MaxTokensTextBox"/>
+                        </Grid>
+
+                        <!-- System Prompt -->
+                        <TextBlock Text="System Prompt" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="5,0,0,2"/>
+                        <Separator Margin="5,0,5,6"/>
+
+                        <TextBox Name="SystemPromptTextBox" Margin="5,0,5,12" Height="100"
+                                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0">
                             <Button Name="TestLLMButton" Content="Test Connection" Click="TestLLMButton_Click"/>
                             <Button Name="SaveLLMButton" Content="Save LLM Config" Click="SaveLLMButton_Click"/>
                         </StackPanel>
-                        </StackPanel>
-                    </Border>
+
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
 

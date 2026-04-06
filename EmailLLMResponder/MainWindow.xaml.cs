@@ -83,26 +83,17 @@ namespace EmailLLMResponder
                 StatusBarText.Text = "Testing email connection...";
                 SaveConfigFromUI();
 
-                bool success = await _emailService.TestConnectionAsync(_config.EmailConfig);
+                await _emailService.TestConnectionAsync(_config.EmailConfig);
 
-                if (success)
-                {
-                    MessageBox.Show("Email connection successful!", "Success",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
-                    LogMessage("Email connection test: SUCCESS");
-                }
-                else
-                {
-                    MessageBox.Show("Email connection failed. Please check your settings.", "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                    LogMessage("Email connection test: FAILED");
-                }
+                MessageBox.Show("Email connection successful!", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                LogMessage("Email connection test: SUCCESS");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error testing email connection: {ex.Message}", "Error",
+                MessageBox.Show($"Connection failed: {ex.Message}", "Connection Failed",
                     MessageBoxButton.OK, MessageBoxImage.Error);
-                LogMessage($"Email connection test error: {ex.Message}");
+                LogMessage($"Email connection test FAILED: {ex.Message}");
             }
             finally
             {
