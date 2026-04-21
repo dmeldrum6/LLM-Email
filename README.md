@@ -14,6 +14,21 @@ A WPF desktop application that automatically monitors an email inbox, processes 
 - **Secure Configuration**: Passwords and API keys are encrypted and stored securely
 - **Real-Time Logging**: Monitor all activity in real-time with detailed logging
 
+04/21/26 - New feature added - Self-Refinement Loop
+The self-refinement loop is an optional feature that improves response quality from smaller local LLMs by running multiple silent passes before sending a reply.
+Rather than sending the first response the model generates, the loop runs a structured draft → critique → rewrite pipeline for each incoming email:
+
+Draft — the model generates an initial response using the full system prompt and email content
+Critique — the model reviews its own draft, identifying specific issues with accuracy, completeness, or tone
+Rewrite — the model produces an improved response using the original request, the draft, and the critique
+
+This cycle repeats for the configured number of passes. Only the final polished response is sent.
+The approach is inspired by Recurrent Depth Transformer research, which shows that iterative refinement — even in token space — produces meaningfully better outputs from the same underlying model. It is particularly effective with smaller, locally-hosted models that benefit more from a second look than larger API-based models.
+
+Configuration
+The feature can be enabled or disabled on the LLM Configuration tab. When enabled, a Refinement Passes control (1–5) sets how many draft/critique/rewrite cycles to run. Two passes is a good default for most use cases — diminishing returns typically set in beyond three.
+Since email delivery is asynchronous, the additional processing time has no impact on the user experience.
+
 ## Requirements
 
 - Windows operating system
