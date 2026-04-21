@@ -47,6 +47,9 @@ namespace EmailLLMResponder
             TemperatureSlider.Value = _config.LLMConfig.Temperature;
             MaxTokensTextBox.Text = _config.LLMConfig.MaxTokens.ToString();
             SystemPromptTextBox.Text = _config.LLMConfig.SystemPrompt;
+            EnableRefinementLoopCheckBox.IsChecked = _config.LLMConfig.EnableRefinementLoop;
+            RefinementPassesTextBox.Text = _config.LLMConfig.RefinementPasses.ToString();
+            RefinementPassesTextBox.IsEnabled = _config.LLMConfig.EnableRefinementLoop;
         }
 
         private void SaveConfigFromUI()
@@ -77,6 +80,9 @@ namespace EmailLLMResponder
             _config.LLMConfig.Model = ModelTextBox.Text;
             _config.LLMConfig.Temperature = TemperatureSlider.Value;
             _config.LLMConfig.SystemPrompt = SystemPromptTextBox.Text;
+            _config.LLMConfig.EnableRefinementLoop = EnableRefinementLoopCheckBox.IsChecked ?? false;
+            if (int.TryParse(RefinementPassesTextBox.Text, out int refinementPasses) && refinementPasses >= 1 && refinementPasses <= 5)
+                _config.LLMConfig.RefinementPasses = refinementPasses;
         }
 
         private async void TestEmailButton_Click(object sender, RoutedEventArgs e)
@@ -174,6 +180,12 @@ namespace EmailLLMResponder
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 LogMessage($"Error saving LLM configuration: {ex.Message}");
             }
+        }
+
+        private void EnableRefinementLoopCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            if (RefinementPassesTextBox != null)
+                RefinementPassesTextBox.IsEnabled = EnableRefinementLoopCheckBox.IsChecked ?? false;
         }
 
         private void TemperatureSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -288,7 +300,8 @@ namespace EmailLLMResponder
                 LogMessage("Generating LLM response...");
                 var llmResponse = await _llmService.GetResponseAsync(
                     $"Subject: {email.Subject}\n\nMessage: {email.Body}",
-                    _config.LLMConfig);
+                    _config.LLMConfig,
+                    LogMessage);
 
                 LogMessage($"LLM Response: {llmResponse.Substring(0, Math.Min(100, llmResponse.Length))}...");
 

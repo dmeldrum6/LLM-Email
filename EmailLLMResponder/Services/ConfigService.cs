@@ -77,7 +77,9 @@ namespace EmailLLMResponder.Services
                     Model = config.LLMConfig.Model,
                     Temperature = config.LLMConfig.Temperature,
                     MaxTokens = config.LLMConfig.MaxTokens,
-                    SystemPrompt = config.LLMConfig.SystemPrompt
+                    SystemPrompt = config.LLMConfig.SystemPrompt,
+                    EnableRefinementLoop = config.LLMConfig.EnableRefinementLoop,
+                    RefinementPasses = config.LLMConfig.RefinementPasses
                 }
             };
 
