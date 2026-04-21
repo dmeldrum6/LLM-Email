@@ -14,7 +14,7 @@ A WPF desktop application that automatically monitors an email inbox, processes 
 - **Secure Configuration**: Passwords and API keys are encrypted and stored securely
 - **Real-Time Logging**: Monitor all activity in real-time with detailed logging
 
-04/21/26 - New feature added - Self-Refinement Loop
+**04/21/26 - New feature added - Self-Refinement Loop**
 The self-refinement loop is an optional feature that improves response quality from smaller local LLMs by running multiple silent passes before sending a reply.
 Rather than sending the first response the model generates, the loop runs a structured draft → critique → rewrite pipeline for each incoming email:
 
