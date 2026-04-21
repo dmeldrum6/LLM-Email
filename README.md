@@ -18,9 +18,9 @@ A WPF desktop application that automatically monitors an email inbox, processes 
 The self-refinement loop is an optional feature that improves response quality from smaller local LLMs by running multiple silent passes before sending a reply.
 Rather than sending the first response the model generates, the loop runs a structured draft → critique → rewrite pipeline for each incoming email:
 
-Draft — the model generates an initial response using the full system prompt and email content
-Critique — the model reviews its own draft, identifying specific issues with accuracy, completeness, or tone
-Rewrite — the model produces an improved response using the original request, the draft, and the critique
+- Draft — the model generates an initial response using the full system prompt and email content
+- Critique — the model reviews its own draft, identifying specific issues with accuracy, completeness, or tone
+- Rewrite — the model produces an improved response using the original request, the draft, and the critique
 
 This cycle repeats for the configured number of passes. Only the final polished response is sent.
 The approach is inspired by Recurrent Depth Transformer research, which shows that iterative refinement — even in token space — produces meaningfully better outputs from the same underlying model. It is particularly effective with smaller, locally-hosted models that benefit more from a second look than larger API-based models.
