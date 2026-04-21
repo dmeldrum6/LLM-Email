@@ -25,7 +25,7 @@ Rather than sending the first response the model generates, the loop runs a stru
 This cycle repeats for the configured number of passes. Only the final polished response is sent.
 The approach is inspired by Recurrent Depth Transformer research, which shows that iterative refinement — even in token space — produces meaningfully better outputs from the same underlying model. It is particularly effective with smaller, locally-hosted models that benefit more from a second look than larger API-based models.
 
-Configuration
+## Configuration
 The feature can be enabled or disabled on the LLM Configuration tab. When enabled, a Refinement Passes control (1–5) sets how many draft/critique/rewrite cycles to run. Two passes is a good default for most use cases — diminishing returns typically set in beyond three.
 Since email delivery is asynchronous, the additional processing time has no impact on the user experience.
 
