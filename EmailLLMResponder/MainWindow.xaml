@@ -178,6 +178,35 @@
                             <TextBox Grid.Column="4" Name="MaxTokensTextBox"/>
                         </Grid>
 
+                        <!-- Self-Refinement Loop -->
+                        <TextBlock Text="Self-Refinement Loop" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="5,0,0,2"/>
+                        <Separator Margin="5,0,5,6"/>
+
+                        <Grid Margin="5,0,5,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="" VerticalContentAlignment="Center"/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" Name="EnableRefinementLoopCheckBox"
+                                      Content="Enable Self-Refinement Loop" VerticalAlignment="Center"
+                                      Checked="EnableRefinementLoopCheckBox_Changed"
+                                      Unchecked="EnableRefinementLoopCheckBox_Changed"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Refinement Passes:" VerticalContentAlignment="Center"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBox Name="RefinementPassesTextBox" Width="80" IsEnabled="False"/>
+                                <TextBlock Text="(min 1, max 5)" VerticalAlignment="Center" Margin="6,0,0,0"
+                                           FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            </StackPanel>
+                        </Grid>
+
                         <!-- System Prompt -->
                         <TextBlock Text="System Prompt" FontSize="13" FontWeight="SemiBold"
                                    Foreground="{StaticResource TextSecondaryBrush}" Margin="5,0,0,2"/>

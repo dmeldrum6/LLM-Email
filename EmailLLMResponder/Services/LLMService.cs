@@ -17,7 +17,50 @@ namespace EmailLLMResponder.Services
             _httpClient.Timeout = TimeSpan.FromSeconds(60);
         }
 
-        public async Task<string> GetResponseAsync(string userMessage, LLMConfig config)
+        public async Task<string> GetResponseAsync(string userMessage, LLMConfig config, Action<string>? logAction = null)
+        {
+            if (config.EnableRefinementLoop)
+                return await RunRefinementLoopAsync(userMessage, config, logAction);
+
+            return await CallApiAsync(config.SystemPrompt, userMessage, config);
+        }
+
+        private async Task<string> RunRefinementLoopAsync(string userMessage, LLMConfig config, Action<string>? logAction)
+        {
+            var draft = await CallApiAsync(config.SystemPrompt, userMessage, config);
+
+            for (int pass = 1; pass <= config.RefinementPasses; pass++)
+            {
+                logAction?.Invoke($"Refinement pass {pass} of {config.RefinementPasses}: critiquing draft...");
+
+                var critiqueUserMessage =
+                    $"Review this email response for accuracy, completeness, and professional tone. " +
+                    $"List specific issues only, no preamble.\n" +
+                    $"ORIGINAL REQUEST: {userMessage}\n" +
+                    $"RESPONSE TO REVIEW: {draft}";
+
+                var critique = await CallApiAsync(
+                    "You are a critical reviewer. Be concise.",
+                    critiqueUserMessage,
+                    config);
+
+                logAction?.Invoke($"Refinement pass {pass} of {config.RefinementPasses}: refining response...");
+
+                var refineUserMessage =
+                    $"Original request: {userMessage}\n" +
+                    $"Your draft response: {draft}\n" +
+                    $"Issues identified: {critique}\n" +
+                    $"Rewrite the response fixing all identified issues. " +
+                    $"Reply with the improved response only, no preamble.";
+
+                draft = await CallApiAsync(config.SystemPrompt, refineUserMessage, config);
+            }
+
+            logAction?.Invoke("Refinement complete. Sending final response.");
+            return draft;
+        }
+
+        private async Task<string> CallApiAsync(string systemPrompt, string userMessage, LLMConfig config)
         {
             try
             {
@@ -26,7 +69,7 @@ namespace EmailLLMResponder.Services
                     model = config.Model,
                     messages = new[]
                     {
-                        new { role = "system", content = config.SystemPrompt },
+                        new { role = "system", content = systemPrompt },
                         new { role = "user", content = userMessage }
                     },
                     temperature = config.Temperature,
@@ -60,7 +103,7 @@ namespace EmailLLMResponder.Services
         {
             try
             {
-                await GetResponseAsync("Hello", config);
+                await CallApiAsync(config.SystemPrompt, "Hello", config);
                 return true;
             }
             catch

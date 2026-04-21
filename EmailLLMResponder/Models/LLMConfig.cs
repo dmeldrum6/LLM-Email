@@ -8,5 +8,7 @@ namespace EmailLLMResponder.Models
         public double Temperature { get; set; } = 0.7;
         public int MaxTokens { get; set; } = 500;
         public string SystemPrompt { get; set; } = "You are a helpful email assistant. Respond to emails in a professional and concise manner.";
+        public bool EnableRefinementLoop { get; set; } = false;
+        public int RefinementPasses { get; set; } = 2;
     }
 }
